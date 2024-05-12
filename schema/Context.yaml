@@ -9,6 +9,15 @@ properties:
     description: The location where the transaction is intended to be fulfilled.
     allOf:
       - $ref: "./Location.yaml"
+    examples:
+      - city: 
+          std:080
+        country:
+          IND
+      - city: 
+          std:090
+        country:
+          IND
   action:
     description: The Beckn protocol method being called by the sender and executed at the receiver.
     type: string
@@ -49,4 +58,14 @@ properties:
   ttl:
     description: The duration in ISO8601 format after timestamp for which this message holds valid
     type: string
-
+    format: duration
+required:
+  - domain
+  - location
+  - action
+  - version
+  - bap_id
+  - bap_uri
+  - transaction_id
+  - message_id
+  - timestamp

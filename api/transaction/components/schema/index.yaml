@@ -148,6 +148,9 @@ State:
 Stop:
   $ref: "../../../../schema/Stop.yaml"
 
+Subscriber:
+  $ref: "../../../../schema/Subscriber.yaml"
+
 Support:
   $ref: "../../../../schema/Support.yaml"
 

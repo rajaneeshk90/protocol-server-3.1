@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Beckn Protocol Core
   description: Beckn Core Transaction API specification
@@ -18,7 +18,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/Search.yaml"
-
+            examples:
+              $ref : "./examples/Search.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -33,6 +34,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Select.yaml"
+            examples:
+              $ref : "./examples/Select.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -47,6 +50,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Init.yaml"
+            examples:
+              $ref : "./examples/Init.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -61,6 +66,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Confirm.yaml"
+            examples:
+              $ref : "./examples/Confirm.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -75,6 +82,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Status.yaml"
+            examples:
+              $ref : "./examples/Status.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -89,6 +98,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Track.yaml"
+            examples:
+              $ref : "./examples/Track.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -103,6 +114,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Cancel.yaml"
+            examples:
+              $ref : "./examples/Cancel.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -117,6 +130,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Update.yaml"
+            examples:
+              $ref : "./examples/Update.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -131,6 +146,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/Rating.yaml"
+            examples:
+              $ref : "./examples/Rating.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -145,6 +162,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/Support.yaml"
+            examples:
+              $ref : "./examples/Support.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -160,6 +179,9 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnSearch.yaml"
+            examples:
+              $ref : "./examples/OnSearch.yaml"
+            
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -174,6 +196,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/OnSelect.yaml"
+            examples:
+              $ref : "./examples/OnSelect.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -188,6 +212,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/OnInit.yaml"
+            examples:
+              $ref : "./examples/OnInit.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -202,6 +228,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/OnConfirm.yaml"
+            examples:
+              $ref : "./examples/OnConfirm.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -216,6 +244,8 @@ paths:
           application/json:
             schema:
               $ref : "./io/OnTrack.yaml"
+            examples:
+              $ref : "./examples/OnTrack.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -230,6 +260,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnCancel.yaml"
+            examples:
+              $ref : "./examples/OnCancel.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -244,6 +276,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnUpdate.yaml"
+            examples:
+              $ref : "./examples/OnUpdate.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -257,6 +291,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnStatus.yaml"
+            examples:
+              $ref : "./examples/OnStatus.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -270,6 +306,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnRating.yaml"
+            examples:
+              $ref : "./examples/OnRating.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"
@@ -284,6 +322,8 @@ paths:
           application/json:
             schema:
               $ref: "./io/OnSupport.yaml"
+            examples:
+              $ref : "./examples/OnSupport.yaml"
       responses:
         default:
           $ref: "./io/Response.yaml"

@@ -4,6 +4,7 @@ properties:
   subscriber_id:
     description: A globally unique identifier of the platform, Typically it is the fully qualified domain name (FQDN) of the platform. 
     type: string
+    pattern: ’^(?!www\.|https:\/\/)(?![0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$’
   url:
     description: The callback URL of the Subscriber. This should necessarily contain the same domain name as set in `subscriber_id``.
     type: string
