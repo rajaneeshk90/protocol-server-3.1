@@ -16,23 +16,35 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - search
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    intent:
-                      $ref: '#/components/schemas/Intent'
-              required:
-                - context
-                - message
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - search
+                    message:
+                      type: object
+                      properties:
+                        intent:
+                          $ref: '#/components/schemas/Intent'
+                  required:
+                    - context
+                    - message
+                - if:
+                    properties:
+                      context:
+                        properties:
+                          action:
+                            const: search
+                  then:
+                    properties:
+                      context:
+                        required:
+                          - key
             examples:
               BAP declares the customer's intent to buy/avail products or services:
                 value:

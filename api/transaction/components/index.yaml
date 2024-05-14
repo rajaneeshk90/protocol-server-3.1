@@ -17,7 +17,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref : "./io/Search.yaml"
+              allOf:
+                - $ref : "./io/Search.yaml"
+                - $ref : "./policy-rules/Search.yaml"
             examples:
               $ref : "./examples/Search.yaml"
       responses:

@@ -1,0 +1,11 @@
+if: 
+  properties:
+    context:
+      properties:
+        action:
+          const: search
+then: 
+  properties:
+    context:
+      required:
+        - key
