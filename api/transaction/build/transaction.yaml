@@ -545,9 +545,8 @@ paths:
                                     items:
                                       properties:
                                         params:
-                                          properties:
-                                            required:
-                                              - transaction_id
+                                          required:
+                                            - transaction_id
             examples:
               Initialize an order by providing billing and/or shipping details:
                 value:
