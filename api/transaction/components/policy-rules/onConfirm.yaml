@@ -1,0 +1,2 @@
+allOf:
+  - $ref : "./on_confirm/required-fields.yaml"

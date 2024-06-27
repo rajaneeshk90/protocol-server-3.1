@@ -9,6 +9,7 @@ security:
 paths:
   /search:
     post:
+      operationId: search
       tags:
         - Beckn Provider Platform (BPP)
         - Beckn Gateway (BG)
@@ -19,7 +20,7 @@ paths:
             schema:
               allOf:
                 - $ref : "./io/Search.yaml"
-                - $ref : "./policy-rules/Search.yaml"
+                - $ref : "./policy-rules/search.yaml"
             examples:
               $ref : "./examples/Search.yaml"
       responses:
@@ -28,6 +29,7 @@ paths:
 
   /select:
     post:
+      operationId: select
       tags:
         - Beckn Provider Platform (BPP)
       description: BAP declares the customer's cart (or equivalent) created by selecting objects from the catalog
@@ -35,7 +37,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./io/Select.yaml"
+              allOf:
+                - $ref : "./io/Select.yaml"
+                # - $ref : "./policy-rules/Select.yaml"
             examples:
               $ref : "./examples/Select.yaml"
       responses:
@@ -44,6 +48,7 @@ paths:
 
   /init:
     post:
+      operationId: init
       tags:
         - Beckn Provider Platform (BPP)
       description: Initialize an order by providing billing and/or shipping details
@@ -51,7 +56,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./io/Init.yaml"
+              allOf:
+                - $ref: "./io/Init.yaml"
+                - $ref : "./policy-rules/init.yaml"
             examples:
               $ref : "./examples/Init.yaml"
       responses:
@@ -60,6 +67,7 @@ paths:
 
   /confirm:
     post:
+      operationId: confirm
       tags:
         - Beckn Provider Platform (BPP)
       description: Initialize an order by providing billing and/or shipping details
@@ -67,7 +75,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./io/Confirm.yaml"
+              allOf:
+                - $ref: "./io/Confirm.yaml"
+                - $ref : "./policy-rules/confirm.yaml"
             examples:
               $ref : "./examples/Confirm.yaml"
       responses:
@@ -76,6 +86,7 @@ paths:
 
   /status:
     post:
+      operationId: status
       tags:
         - Beckn Provider Platform (BPP)
       description: Fetch the latest order object
@@ -92,6 +103,7 @@ paths:
 
   /track:
     post:
+      operationId: track
       tags:
         - Beckn Provider Platform (BPP)
       description: Track an active order
@@ -108,6 +120,7 @@ paths:
 
   /cancel:
     post:
+      operationId: cancel
       tags:
         - Beckn Provider Platform (BPP)
       description: Cancel an order
@@ -124,6 +137,7 @@ paths:
 
   /update:
     post:
+      operationId: update
       tags:
         - Beckn Provider Platform (BPP)
       description: Remove object
@@ -140,6 +154,7 @@ paths:
 
   /rating:
     post:
+      operationId: rating
       tags:
         - Beckn Provider Platform (BPP)
       description: Provide feedback on a service
@@ -156,6 +171,7 @@ paths:
 
   /support:
     post:
+      operationId: support
       tags:
         - Beckn Provider Platform (BPP)
       description: Contact support
@@ -172,6 +188,7 @@ paths:
 
   /on_search:
     post:
+      operationId: on_search
       tags:
         - Beckn Application Platform (BAP)
         - Beckn Gateway (BG)
@@ -190,6 +207,7 @@ paths:
 
   /on_select:
     post:
+      operationId: on_select
       tags:
         - Beckn Application Platform (BAP)
       description: Send draft order object with quoted price for selected items
@@ -206,6 +224,7 @@ paths:
 
   /on_init:
     post:
+      operationId: on_init
       tags:
         - Beckn Application Platform (BAP)
       description: Send order object with payment details updated
@@ -213,7 +232,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref : "./io/OnInit.yaml"
+              allOf:
+                - $ref : "./io/OnInit.yaml"
+                - $ref : "./policy-rules/onInit.yaml"
             examples:
               $ref : "./examples/OnInit.yaml"
       responses:
@@ -222,6 +243,7 @@ paths:
 
   /on_confirm:
     post:
+      operationId: on_confirm
       tags:
         - Beckn Application Platform (BAP)
       description: Send active order object
@@ -229,7 +251,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref : "./io/OnConfirm.yaml"
+              allOf:
+                - $ref : "./io/OnConfirm.yaml"
+                - $ref : "./policy-rules/OnConfirm.yaml"
             examples:
               $ref : "./examples/OnConfirm.yaml"
       responses:
@@ -238,6 +262,7 @@ paths:
 
   /on_track:
     post:
+      operationId: on_track
       tags:
         - Beckn Application Platform (BAP)
       description: Send tracking details of an active order
@@ -254,6 +279,7 @@ paths:
 
   /on_cancel:
     post:
+      operationId: on_cancel
       tags:
         - Beckn Application Platform (BAP)
       description: Send cancellation request_id with reasons list in case of cancellation request. Else send cancelled order object
@@ -270,6 +296,7 @@ paths:
 
   /on_update:
     post:
+      operationId: on_update
       tags:
         - Beckn Application Platform (BAP)
       description: Returns updated service with updated runtime object
@@ -285,6 +312,7 @@ paths:
           $ref: "./io/Response.yaml"
   /on_status:
     post:
+      operationId: on_status
       tags:
         - Beckn Application Platform (BAP)
       description: Fetch the status of a Service
@@ -300,6 +328,7 @@ paths:
           $ref: "./io/Response.yaml"
   /on_rating:
     post:
+      operationId: on_rating
       tags:
         - Beckn Application Platform (BAP)
       description: Provide feedback on a service
@@ -316,6 +345,7 @@ paths:
 
   /on_support:
     post:
+      operationId: on_support
       tags:
         - Beckn Application Platform (BAP)
       description: Contact Support

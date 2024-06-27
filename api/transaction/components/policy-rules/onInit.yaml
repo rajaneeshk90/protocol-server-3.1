@@ -1,0 +1,4 @@
+allOf:
+  - $ref : "./on_init/required-fields.yaml"
+  #- $ref : "./on_init/conditional-required.yaml"
+  - $ref : "./on_init/electronics-item-tags.yaml"

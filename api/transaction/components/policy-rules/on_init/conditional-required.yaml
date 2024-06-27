@@ -1,0 +1,22 @@
+properties:
+    message:
+      properties:
+        order:
+          properties:
+            cancellation_terms:
+              type: array
+              items:
+                properties:
+                  cancellation_fee:
+                    oneOf:
+                      - required:
+                          - percentage
+                      - if:
+                          properties:
+                            amount: {}
+                        then:
+                          properties:
+                            amount:
+                              required:
+                                - currency
+                                - value

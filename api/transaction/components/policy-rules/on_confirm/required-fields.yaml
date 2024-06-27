@@ -1,0 +1,25 @@
+properties:
+  message:
+    properties:
+      order:
+        properties:
+          provider:
+            required:
+              - id
+          items:
+            minItems: 1
+          fulfillments:
+            type: array
+            items:
+              properties:
+                type:
+                  type: string
+                  enum:
+                    - ACCEPTED
+              required:
+                - type   
+        required:
+          - id
+          - provider
+          - items
+          - billing

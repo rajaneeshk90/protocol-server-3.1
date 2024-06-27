@@ -1,0 +1,24 @@
+if:
+  properties:
+    message:
+      properties:
+        order:
+          properties:
+            payments:
+              items:
+                properties:
+                  type:
+                    const: "PRE-PRDER"
+then:
+  properties:
+    message:
+      properties:
+        order:
+          properties:
+            payments:
+              type: array
+              items:
+                properties:
+                  params:
+                    required:
+                      - transaction_id

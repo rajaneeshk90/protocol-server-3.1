@@ -8,6 +8,7 @@ security:
 paths:
   /search:
     post:
+      operationId: search
       tags:
         - Beckn Provider Platform (BPP)
         - Beckn Gateway (BG)
@@ -34,17 +35,237 @@ paths:
                   required:
                     - context
                     - message
-                - if:
-                    properties:
-                      context:
+                - allOf:
+                    - if:
                         properties:
-                          action:
-                            const: search
-                  then:
-                    properties:
-                      context:
-                        required:
-                          - key
+                          message:
+                            properties:
+                              intent:
+                                properties:
+                                  tags:
+                                    items:
+                                      properties:
+                                        descriptor:
+                                          properties:
+                                            code:
+                                              const: BUYER_FINDER_FEES
+                      then:
+                        properties:
+                          message:
+                            properties:
+                              intent:
+                                properties:
+                                  tags:
+                                    items:
+                                      properties:
+                                        list:
+                                          type: array
+                                          items:
+                                            allOf:
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: BUYER_FINDER_FEES_PERCENTAGE
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      pattern: '^(0|[1-9][0-9]?(\.\d+)?|99(\.9+)?)$'
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: BUYER_FINDER_FEES_AMOUNT
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      pattern: ^-?\d+(\.\d+)?$
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                    - properties:
+                        message:
+                          properties:
+                            intent:
+                              properties:
+                                fulfillment:
+                                  properties:
+                                    type:
+                                      enum:
+                                        - DELIVERY
+                                        - PICKUP
+                                    stops:
+                                      type: array
+                                      items:
+                                        properties:
+                                          location:
+                                            properties:
+                                              gps:
+                                                type: string
+                                            required:
+                                              - gps
+                                        required:
+                                          - location
+                              required:
+                                - fulfillment
+                    - properties:
+                        message:
+                          properties:
+                            intent:
+                              properties:
+                                tags:
+                                  type: array
+                                  items:
+                                    properties:
+                                      descriptor:
+                                        properties:
+                                          code:
+                                            enum:
+                                              - BUYER_FINDER_FEES
+                                              - SETTLEMENT_TERMS
+                    - if:
+                        properties:
+                          message:
+                            properties:
+                              intent:
+                                properties:
+                                  tags:
+                                    items:
+                                      properties:
+                                        descriptor:
+                                          properties:
+                                            code:
+                                              const: SETTLEMENT_TERMS
+                      then:
+                        properties:
+                          message:
+                            properties:
+                              intent:
+                                properties:
+                                  tags:
+                                    items:
+                                      properties:
+                                        list:
+                                          type: array
+                                          items:
+                                            allOf:
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: SETTLEMENT_WINDOW
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      type: string
+                                                      pattern: '^[0-9]+[SMHD]$'
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: SETTLEMENT_BASIS
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      const: INVOICE_RECEIPT
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: MANDATORY_ARBITRATION
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      enum:
+                                                        - 'TRUE'
+                                                        - 'FALSE'
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: COURT_JURISDICTION
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      type: string
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: STATIC_TERMS
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      type: string
+                                                      format: uri
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: SETTLEMENT_TYPE
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      enum:
+                                                        - neft
+                                                        - upi
+                                                        - rtgs
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: SETTLEMENT_AMOUNT
+                                                then:
+                                                  properties:
+                                                    value:
+                                                      type: string
+                                                      pattern: ^\d+(\.\d+)?$
+                                                  required:
+                                                    - descriptor
+                                                    - value
+                                              - if:
+                                                  properties:
+                                                    descriptor:
+                                                      properties:
+                                                        code:
+                                                          const: DELAY_INTEREST
+                                                then:
+                                                  value:
+                                                    type: string
+                                                    pattern: ^\d+(\.\d+)?$
+                                                  required:
+                                                    - descriptor
+                                                    - value
             examples:
               BAP declares the customer's intent to buy/avail products or services:
                 value:
@@ -72,6 +293,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /select:
     post:
+      operationId: select
       tags:
         - Beckn Provider Platform (BPP)
       description: BAP declares the customer's cart (or equivalent) created by selecting objects from the catalog
@@ -79,27 +301,28 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - select
-                      required:
-                        - action
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    order:
-                      $ref: '#/components/schemas/Order'
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - select
+                          required:
+                            - action
+                    message:
+                      type: object
+                      properties:
+                        order:
+                          $ref: '#/components/schemas/Order'
+                      required:
+                        - order
                   required:
-                    - order
-              required:
-                - context
-                - message
+                    - context
+                    - message
             examples:
               BAP declares the customer's cart (or equivalent) created by selecting objects from the catalog:
                 value:
@@ -137,6 +360,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /init:
     post:
+      operationId: init
       tags:
         - Beckn Provider Platform (BPP)
       description: Initialize an order by providing billing and/or shipping details
@@ -144,27 +368,43 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - init
-                      required:
-                        - action
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    order:
-                      $ref: '#/components/schemas/Order'
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - init
+                          required:
+                            - action
+                    message:
+                      type: object
+                      properties:
+                        order:
+                          $ref: '#/components/schemas/Order'
+                      required:
+                        - order
                   required:
-                    - order
-              required:
-                - context
-                - message
+                    - context
+                    - message
+                - allOf:
+                    - properties:
+                        message:
+                          properties:
+                            order:
+                              properties:
+                                provider:
+                                  required:
+                                    - id
+                                items:
+                                  minItems: 1
+                              required:
+                                - provider
+                                - items
+                                - billing
             examples:
               Initialize an order by providing billing and/or shipping details:
                 value:
@@ -252,6 +492,7 @@ paths:
                   - message
   /confirm:
     post:
+      operationId: confirm
       tags:
         - Beckn Provider Platform (BPP)
       description: Initialize an order by providing billing and/or shipping details
@@ -259,27 +500,54 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - confirm
-                      required:
-                        - action
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    order:
-                      $ref: '#/components/schemas/Order'
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - confirm
+                          required:
+                            - action
+                    message:
+                      type: object
+                      properties:
+                        order:
+                          $ref: '#/components/schemas/Order'
+                      required:
+                        - order
                   required:
-                    - order
-              required:
-                - context
-                - message
+                    - context
+                    - message
+                - allOf:
+                    - if:
+                        properties:
+                          message:
+                            properties:
+                              order:
+                                properties:
+                                  payments:
+                                    items:
+                                      properties:
+                                        type:
+                                          const: PRE-PRDER
+                      then:
+                        properties:
+                          message:
+                            properties:
+                              order:
+                                properties:
+                                  payments:
+                                    type: array
+                                    items:
+                                      properties:
+                                        params:
+                                          properties:
+                                            required:
+                                              - transaction_id
             examples:
               Initialize an order by providing billing and/or shipping details:
                 value:
@@ -353,6 +621,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /status:
     post:
+      operationId: status
       tags:
         - Beckn Provider Platform (BPP)
       description: Fetch the latest order object
@@ -409,6 +678,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /track:
     post:
+      operationId: track
       tags:
         - Beckn Provider Platform (BPP)
       description: Track an active order
@@ -469,6 +739,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /cancel:
     post:
+      operationId: cancel
       tags:
         - Beckn Provider Platform (BPP)
       description: Cancel an order
@@ -532,6 +803,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /update:
     post:
+      operationId: update
       tags:
         - Beckn Provider Platform (BPP)
       description: Remove object
@@ -603,6 +875,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /rating:
     post:
+      operationId: rating
       tags:
         - Beckn Provider Platform (BPP)
       description: Provide feedback on a service
@@ -662,6 +935,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /support:
     post:
+      operationId: support
       tags:
         - Beckn Provider Platform (BPP)
       description: Contact support
@@ -718,6 +992,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_search:
     post:
+      operationId: on_search
       tags:
         - Beckn Application Platform (BAP)
         - Beckn Gateway (BG)
@@ -809,6 +1084,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_select:
     post:
+      operationId: on_select
       tags:
         - Beckn Application Platform (BAP)
       description: Send draft order object with quoted price for selected items
@@ -905,6 +1181,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_init:
     post:
+      operationId: on_init
       tags:
         - Beckn Application Platform (BAP)
       description: Send order object with payment details updated
@@ -912,28 +1189,96 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - on_init
-                      required:
-                        - action
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    order:
-                      $ref: '#/components/schemas/Order'
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - on_init
+                          required:
+                            - action
+                    message:
+                      type: object
+                      properties:
+                        order:
+                          $ref: '#/components/schemas/Order'
+                      required:
+                        - order
+                    error:
+                      $ref: '#/components/schemas/Error'
                   required:
-                    - order
-                error:
-                  $ref: '#/components/schemas/Error'
-              required:
-                - context
+                    - context
+                - allOf:
+                    - properties:
+                        message:
+                          properties:
+                            order:
+                              properties:
+                                provider:
+                                  required:
+                                    - id
+                                items:
+                                  minItems: 1
+                                cancellation_terms:
+                                  properties:
+                                    items:
+                                      required:
+                                        - cancel_by
+                                        - cancellation_fee
+                              required:
+                                - provider
+                                - items
+                                - fulfillments
+                                - quote
+                                - billing
+                                - payments
+                                - cancellation_terms
+                    - if:
+                        properties:
+                          message:
+                            properties:
+                              order:
+                                properties:
+                                  items:
+                                    type: array
+                                    items:
+                                      properties:
+                                        descriptor:
+                                          properties:
+                                            code:
+                                              const: ELECTRONICS
+                      then:
+                        properties:
+                          message:
+                            properties:
+                              order:
+                                properties:
+                                  items:
+                                    type: array
+                                    items:
+                                      properties:
+                                        tags:
+                                          type: array
+                                          items:
+                                            properties:
+                                              list:
+                                                type: array
+                                                items:
+                                                  allOf:
+                                                    - properties:
+                                                        descriptor:
+                                                          properties:
+                                                            code:
+                                                              const: MANUAL
+                                                    - properties:
+                                                        descriptor:
+                                                          properties:
+                                                            code:
+                                                              const: WARRANTY
             examples:
               Send order object with payment details updated:
                 value:
@@ -1038,6 +1383,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_confirm:
     post:
+      operationId: on_confirm
       tags:
         - Beckn Application Platform (BAP)
       description: Send active order object
@@ -1045,28 +1391,55 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                context:
-                  allOf:
-                    - $ref: '#/components/schemas/Context'
-                    - properties:
-                        action:
-                          enum:
-                            - on_confirm
-                      required:
-                        - action
-                message:
-                  type: object
+              allOf:
+                - type: object
                   properties:
-                    order:
-                      $ref: '#/components/schemas/Order'
+                    context:
+                      allOf:
+                        - $ref: '#/components/schemas/Context'
+                        - properties:
+                            action:
+                              enum:
+                                - on_confirm
+                          required:
+                            - action
+                    message:
+                      type: object
+                      properties:
+                        order:
+                          $ref: '#/components/schemas/Order'
+                      required:
+                        - order
+                    error:
+                      $ref: '#/components/schemas/Error'
                   required:
-                    - order
-                error:
-                  $ref: '#/components/schemas/Error'
-              required:
-                - context
+                    - context
+                - allOf:
+                    - properties:
+                        message:
+                          properties:
+                            order:
+                              properties:
+                                provider:
+                                  required:
+                                    - id
+                                items:
+                                  minItems: 1
+                                fulfillments:
+                                  type: array
+                                  items:
+                                    properties:
+                                      type:
+                                        type: string
+                                        enum:
+                                          - ACCEPTED
+                                    required:
+                                      - type
+                              required:
+                                - id
+                                - provider
+                                - items
+                                - billing
             examples:
               Send active order object:
                 value:
@@ -1177,6 +1550,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_track:
     post:
+      operationId: on_track
       tags:
         - Beckn Application Platform (BAP)
       description: Send tracking details of an active order
@@ -1237,6 +1611,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_cancel:
     post:
+      operationId: on_cancel
       tags:
         - Beckn Application Platform (BAP)
       description: Send cancellation request_id with reasons list in case of cancellation request. Else send cancelled order object
@@ -1376,6 +1751,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_update:
     post:
+      operationId: on_update
       tags:
         - Beckn Application Platform (BAP)
       description: Returns updated service with updated runtime object
@@ -1515,6 +1891,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_status:
     post:
+      operationId: on_status
       tags:
         - Beckn Application Platform (BAP)
       description: Fetch the status of a Service
@@ -1654,6 +2031,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_rating:
     post:
+      operationId: on_rating
       tags:
         - Beckn Application Platform (BAP)
       description: Provide feedback on a service
@@ -1716,6 +2094,7 @@ paths:
           $ref: '#/paths/~1init/post/responses/default'
   /on_support:
     post:
+      operationId: on_support
       tags:
         - Beckn Application Platform (BAP)
       description: Contact Support
@@ -3116,7 +3495,7 @@ components:
         subscriber_id:
           description: 'A globally unique identifier of the platform, Typically it is the fully qualified domain name (FQDN) of the platform.'
           type: string
-          pattern: '’^(?!www\.|https:\/\/)(?![0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$’'
+          pattern: '^(?!www\.|http:\/\/|https:\/\/)[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$'
         url:
           description: The callback URL of the Subscriber. This should necessarily contain the same domain name as set in `subscriber_id``.
           type: string

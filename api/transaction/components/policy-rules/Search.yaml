@@ -1,11 +1,5 @@
-if: 
-  properties:
-    context:
-      properties:
-        action:
-          const: search
-then: 
-  properties:
-    context:
-      required:
-        - key
+allOf:
+  - $ref : "./search/buyer-finder-fee-tag.yaml"
+  - $ref : "./search/search-fulfilment.yaml"
+  - $ref : "./search/search-intent-tag.yaml"
+  - $ref : "./search/settlement-terms-tag.yaml"
