@@ -5,10 +5,11 @@ if:
         order:
           properties:
             payments:
+              type: array
               items:
                 properties:
                   type:
-                    const: "PRE-PRDER"
+                    const: "PRE-ORDER"
 then:
   properties:
     message:
